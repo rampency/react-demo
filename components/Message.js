@@ -21,9 +21,10 @@ const Message = ({ message, onDelete }) => {
         {message.content}
         <FaTimes
           style={{ color: 'red', cursor: 'pointer' }}
-          onClick={onDelete(message.uuid)}
+          onClick={() => onDelete(message.uuid)}
         />
       </h3>
+      <h4 style={messageInfo}> UUID {message.uuid}</h4>
       <h4 style={messageInfo}> Sent by {message.senderUuid}</h4>
       <h4 style={messageInfo}>{formatDate(message.sentAt)}</h4>
     </div>

@@ -8,9 +8,18 @@ function Messages() {
   const [accending, setAccending] = useState(false);
   let changeMessageOrder = () => {
     setAccending(!accending);
+    setMessageList([]);
+
+    let sorted = messageList.sort((d1, d2) => {
+      return accending
+        ? new Date(d1.sentAt).getTime() - new Date(d2.sentAt).getTime()
+        : new Date(d2.sentAt).getTime() - new Date(d1.sentAt).getTime();
+    });
+    setMessageList(sorted);
   };
   const onDelete = id => {
     console.log('delete' + id);
+    setMessageList(messageList.filter(message => message.uuid !== id));
   };
   return (
     <div className="container">
