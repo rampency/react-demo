@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 const Header = ({ title }) => {
@@ -10,8 +9,5 @@ const Header = ({ title }) => {
 };
 Header.defaultProps = {
   title: 'Modern Health Project'
-};
-Header.propTypes = {
-  title: PropTypes.string.isRequired
 };
 export default Header;
