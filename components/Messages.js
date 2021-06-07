@@ -11,7 +11,6 @@ function Messages() {
   const messagesPerPage = 5;
   let currentPage = 1;
   useEffect(() => {
-    console.log('mounted');
     let uniqueList = messageList
       .slice()
       .filter(
@@ -24,8 +23,7 @@ function Messages() {
     setMessageList(uniqueList);
     calculatePageNumbers(uniqueList);
     setCurrentMessageList(uniqueList);
-    return () => console.log('unmounting...');
-  }, []); // <-- add this empty array here
+  }, []);
 
   const changeMessageOrder = () => {
     setAccending(!accending);
@@ -45,11 +43,13 @@ function Messages() {
     calculatePageNumbers(list);
   };
   const handlePageClick = pageNumber => {
-    console.log('last page is  ' + currentPage);
-    document.getElementById('page' + currentPage).classList.remove('active');
-    currentPage = pageNumber;
-    console.log(' page is  ' + currentPage);
+    //remove previous active page number
+    let x = document.getElementsByClassName('active');
+    if (x.length > 0) {
+      x[0].classList.remove('active');
+    }
 
+    currentPage = pageNumber;
     document.getElementById('page' + pageNumber).classList.add('active');
     setCurrentMessageList(messageList);
   };
@@ -71,7 +71,7 @@ function Messages() {
     return (
       <a
         className={number == 1 ? 'active' : ''}
-        key={number}
+        key={number.toString()}
         id={'page' + number}
         onClick={() => handlePageClick(number)}
       >
@@ -83,9 +83,16 @@ function Messages() {
     <div className="container">
       <Button toggle={accending} onClick={changeMessageOrder} />
       {currentList.map((message, index) => {
-        return <Message id={index} message={message} onDelete={onDelete} />;
+        return (
+          <Message
+            key={index.toString()}
+            id={index}
+            message={message}
+            onDelete={onDelete}
+          />
+        );
       })}
-      <div class="pagination">{renderPageNumbers}</div>
+      <div className="pagination">{renderPageNumbers}</div>
     </div>
   );
 }

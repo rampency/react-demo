@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FaTimes } from 'react-icons/fa';
 
 const Message = ({ message, onDelete }) => {
@@ -17,7 +18,7 @@ const Message = ({ message, onDelete }) => {
   };
   return (
     <div className="Message">
-      <h3 key={message.uuid}>
+      <h3>
         {message.content}
         <FaTimes
           style={{ color: 'red', cursor: 'pointer' }}
@@ -32,5 +33,10 @@ const Message = ({ message, onDelete }) => {
 const messageInfo = {
   color: 'blue',
   fontSize: '10px'
+};
+
+Message.propTypes = {
+  message: PropTypes.object,
+  onDelete: PropTypes.func
 };
 export default Message;

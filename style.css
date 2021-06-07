@@ -16,7 +16,7 @@ body {
   margin: 30px auto;
   overflow: auto;
   min-height: 300px;
-  border: 1px solid steelblue;
+  border: 2px solid steelblue;
   padding: 30px;
   border-radius: 5px;
 }
@@ -31,9 +31,6 @@ body {
   padding: 10px 20px;
 }
 
-.Message.reminder {
-  border-left: 5px solid green;
-}
 
 .Message h3 {
   display: flex;
@@ -43,7 +40,7 @@ body {
 
 .pagination {
   display: inline-block;
-  margin: auto;
+  margin: 10px;
 }
 
 .pagination a {
@@ -54,7 +51,7 @@ body {
 }
 
 .pagination a.active {
-  background-color: #4caf50;
+  background-color: steelblue;
   color: white;
   border-radius: 5px;
 }
