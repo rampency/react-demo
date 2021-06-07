@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import React from 'react';
 import data from '../data.json';
 import Message from './Message';
@@ -8,8 +8,18 @@ function Messages() {
   const [currentList, setCurrentList] = useState([]);
   const [accending, setAccending] = useState(false);
   const [pageNumbers, setPageNumbers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const messagesPerPage = 5;
-  let currentPage = 1;
+  const useMounted = () => {
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+      setIsMounted(true);
+    }, []);
+    return isMounted;
+  };
+  const isMounted = useMounted();
+
   useEffect(() => {
     let uniqueList = messageList
       .slice()
@@ -25,9 +35,15 @@ function Messages() {
     setCurrentMessageList(uniqueList);
   }, []);
 
+  useEffect(() => {
+    if (isMounted) {
+      calculatePageNumbers(messageList);
+      setCurrentMessageList(messageList);
+    }
+  }, [currentPage]);
+
   const changeMessageOrder = () => {
     setAccending(!accending);
-    setMessageList([]);
     let sorted = messageList.sort((d1, d2) => {
       return accending
         ? new Date(d1.sentAt).getTime() - new Date(d2.sentAt).getTime()
@@ -36,35 +52,41 @@ function Messages() {
     setMessageList(sorted);
     setCurrentMessageList(sorted);
   };
+
   const onDelete = id => {
     let list = messageList.filter(message => message.uuid !== id);
     setMessageList(list);
     setCurrentMessageList(list);
     calculatePageNumbers(list);
   };
+
   const handlePageClick = pageNumber => {
     //remove previous active page number
-    let x = document.getElementsByClassName('active');
-    if (x.length > 0) {
-      x[0].classList.remove('active');
-    }
-
-    currentPage = pageNumber;
-    document.getElementById('page' + pageNumber).classList.add('active');
-    setCurrentMessageList(messageList);
+    setCurrentPage(pageNumber);
+    activePage(pageNumber);
   };
+
   const setCurrentMessageList = list => {
     const indexOfLastTodo = currentPage * messagesPerPage;
     const indexOfFirstTodo = indexOfLastTodo - messagesPerPage;
     const currentList = list.slice(indexOfFirstTodo, indexOfLastTodo);
     setCurrentList(currentList);
   };
+
   const calculatePageNumbers = list => {
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(list.length / messagesPerPage); i++) {
       pageNumbers.push(i);
     }
     setPageNumbers(pageNumbers);
+  };
+
+  const activePage = number => {
+    let x = document.getElementsByClassName('active');
+    if (x.length > 0) {
+      x[0].classList.remove('active');
+    }
+    document.getElementById('page' + number).classList.add('active');
   };
 
   const renderPageNumbers = pageNumbers.map(number => {
@@ -79,6 +101,7 @@ function Messages() {
       </a>
     );
   });
+
   return (
     <div className="container">
       <Button toggle={accending} onClick={changeMessageOrder} />
