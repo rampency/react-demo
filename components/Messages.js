@@ -37,7 +37,6 @@ function Messages() {
 
   useEffect(() => {
     if (isMounted) {
-      calculatePageNumbers(messageList);
       setCurrentMessageList(messageList);
     }
   }, [currentPage]);
@@ -53,11 +52,13 @@ function Messages() {
     setCurrentMessageList(sorted);
   };
 
-  const onDelete = id => {
-    let list = messageList.filter(message => message.uuid !== id);
+  const onDelete = content => {
+    let list = messageList.filter(message => message.content !== content);
+    console.log(list);
     setMessageList(list);
-    setCurrentMessageList(list);
+    console.log(list.length);
     calculatePageNumbers(list);
+    setCurrentMessageList(list);
   };
 
   const handlePageClick = pageNumber => {
@@ -74,16 +75,22 @@ function Messages() {
   };
 
   const calculatePageNumbers = list => {
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(list.length / messagesPerPage); i++) {
-      pageNumbers.push(i);
+    const pageNumber = [];
+    let length = Math.ceil(list.length / messagesPerPage);
+    for (let i = 1; i <= length; i++) {
+      pageNumber.push(i);
     }
-    setPageNumbers(pageNumbers);
+    setPageNumbers(pageNumber);
+
+    if (currentPage > pageNumber.length) {
+      handlePageClick(currentPage - 1); //incase user deletes all entries on the same page to help navigate to the correct page
+    }
   };
 
   const activePage = number => {
     let x = document.getElementsByClassName('active');
-    if (x.length > 0) {
+    console.log(x.length)
+    if (x[0] && x.length > 0) {
       x[0].classList.remove('active');
     }
     document.getElementById('page' + number).classList.add('active');

@@ -22,7 +22,7 @@ const Message = ({ message, onDelete }) => {
         {message.content}
         <FaTimes
           style={{ color: 'red', cursor: 'pointer' }}
-          onClick={() => onDelete(message.uuid)}
+          onClick={() => onDelete(message.content)}
         />
       </h3>
       <h4 style={messageInfo}> Sent by {message.senderUuid}</h4>
