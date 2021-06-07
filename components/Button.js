@@ -6,12 +6,12 @@ const Button = ({ toggle, onClick }) => {
   return (
     <div>
       {toggle ? (
-        <FaRegArrowAltCircleDown
+        <FaRegArrowAltCircleUp
           style={{ color: 'blue', cursor: 'pointer' }}
           onClick={() => onClick()}
         />
       ) : (
-        <FaRegArrowAltCircleUp
+        <FaRegArrowAltCircleDown
           style={{ color: 'blue', cursor: 'pointer' }}
           onClick={() => onClick()}
         />

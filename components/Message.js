@@ -24,7 +24,6 @@ const Message = ({ message, onDelete }) => {
           onClick={() => onDelete(message.uuid)}
         />
       </h3>
-      <h4 style={messageInfo}> UUID {message.uuid}</h4>
       <h4 style={messageInfo}> Sent by {message.senderUuid}</h4>
       <h4 style={messageInfo}>{formatDate(message.sentAt)}</h4>
     </div>
