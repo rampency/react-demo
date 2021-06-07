@@ -4,14 +4,15 @@ import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from 'react-icons/fa';
 
 const Button = ({ toggle, onClick }) => {
   return (
-    <div>
+    <div className="btn">
+      <span className="tooltiptext">{toggle ? 'Descending' : 'Ascending'}</span>
       {toggle ? (
-        <FaRegArrowAltCircleUp
+        <FaRegArrowAltCircleDown
           style={{ color: 'blue', cursor: 'pointer' }}
           onClick={() => onClick()}
         />
       ) : (
-        <FaRegArrowAltCircleDown
+        <FaRegArrowAltCircleUp
           style={{ color: 'blue', cursor: 'pointer' }}
           onClick={() => onClick()}
         />

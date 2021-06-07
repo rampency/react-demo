@@ -6,13 +6,12 @@ import Button from './Button';
 function Messages() {
   const [messageList, setMessageList] = useState(data['messages']);
   const [currentList, setCurrentList] = useState([]);
-  const [accending, setAccending] = useState(false);
+  const [ascending, setAscending] = useState(false);
   const [pageNumbers, setPageNumbers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const messagesPerPage = 5;
   const useMounted = () => {
     const [isMounted, setIsMounted] = useState(false);
-
     useEffect(() => {
       setIsMounted(true);
     }, []);
@@ -42,9 +41,9 @@ function Messages() {
   }, [currentPage]);
 
   const changeMessageOrder = () => {
-    setAccending(!accending);
+    setAscending(!ascending);
     let sorted = messageList.sort((d1, d2) => {
-      return accending
+      return ascending
         ? new Date(d1.sentAt).getTime() - new Date(d2.sentAt).getTime()
         : new Date(d2.sentAt).getTime() - new Date(d1.sentAt).getTime();
     });
@@ -54,9 +53,7 @@ function Messages() {
 
   const onDelete = content => {
     let list = messageList.filter(message => message.content !== content);
-    console.log(list);
     setMessageList(list);
-    console.log(list.length);
     calculatePageNumbers(list);
     setCurrentMessageList(list);
   };
@@ -80,16 +77,15 @@ function Messages() {
     for (let i = 1; i <= length; i++) {
       pageNumber.push(i);
     }
-    setPageNumbers(pageNumber);
+    pageNumber.length > 0 && setPageNumbers(pageNumber);
 
-    if (currentPage > pageNumber.length) {
+    if (currentPage > pageNumber.length && pageNumber.length > 0) {
       handlePageClick(currentPage - 1); //incase user deletes all entries on the same page to help navigate to the correct page
     }
   };
 
   const activePage = number => {
     let x = document.getElementsByClassName('active');
-    console.log(x.length)
     if (x[0] && x.length > 0) {
       x[0].classList.remove('active');
     }
@@ -111,17 +107,19 @@ function Messages() {
 
   return (
     <div className="container">
-      <Button toggle={accending} onClick={changeMessageOrder} />
-      {currentList.map((message, index) => {
-        return (
-          <Message
-            key={index.toString()}
-            id={index}
-            message={message}
-            onDelete={onDelete}
-          />
-        );
-      })}
+      <Button toggle={ascending} onClick={changeMessageOrder} />
+      {currentList.length > 0
+        ? currentList.map((message, index) => {
+            return (
+              <Message
+                key={index.toString()}
+                id={index}
+                message={message}
+                onDelete={onDelete}
+              />
+            );
+          })
+        : 'No Messages To Show'}
       <div className="pagination">{renderPageNumbers}</div>
     </div>
   );

@@ -31,7 +31,6 @@ body {
   padding: 10px 20px;
 }
 
-
 .Message h3 {
   display: flex;
   align-items: center;
@@ -59,4 +58,26 @@ body {
 .pagination a:hover:not(.active) {
   background-color: #ddd;
   border-radius: 5px;
+}
+.btn {
+  position: relative;
+  display: inline-block;
+}
+.btn .tooltiptext {
+  visibility: hidden;
+  width: 100px;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%;
+}
+
+.btn:hover .tooltiptext {
+  visibility: visible;
 }
